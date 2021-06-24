@@ -1,10 +1,3 @@
-██████╗ ██████╗  ██████╗ 
-██╔══██╗██╔══██╗██╔════╝ 
-██║  ██║██████╔╝██║  ███╗
-██║  ██║██╔═══╝ ██║   ██║
-██████╔╝██║     ╚██████╔╝
-╚═════╝ ╚═╝      ╚═════╝ 
-
 # Docker Playground
 
 ![License](https://img.shields.io/github/license/MrWelsch/dpg?style=flat-square)
