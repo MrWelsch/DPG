@@ -1,0 +1,87 @@
+version: '3'
+# Custom network in which the networks are able to communicate with
+# each other by routing their traffic over a bridge container.
+# This bridge container can inspect said traffic via tshark.
+# Usage: tshark -i INTERFACE
+#                  any
+services:
+    # NETWORK A
+    s10:
+        container_name: container_a
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        # IP_CONTAINER is mandatory!
+        # Routing Syntax:
+        # ROUTING_X: IP_ROUTER,IP_NETWORK_TO_CONNECT_TO
+        # example:
+        # ROUTING_A: 10.1.0.3/16,10.2.0.0/16
+        environment:
+            IP_CONTAINER: 10.1.0.2/16
+            ROUTING_A: 10.1.0.3/16,10.2.0.0/16
+            # NAME AND PASSWORD ARE NOT MANDATORY
+            # THEY HAVE DEFAULT VALUES (ssh.sh)
+            USER_NAME: client
+            USER_PASSWORD: playground
+        # Keep Container open
+        stdin_open: true
+        # Netadmin
+        cap_add:
+            - NET_ADMIN
+        networks:
+            - network_a
+        ports:
+            - 1010:22
+        restart: on-failure
+    # BRIDGE
+    s20:
+        container_name: bridge
+        build:
+            context: ./bridge
+            dockerfile: Dockerfile
+        environment:
+            # Any network which routes over this bridge has to be set
+            # here according to following name convention:
+            # BRIDGE_IP_NETWORK_X
+            BRIDGE_IP_NETWORK_A: 10.1.0.3/16
+            BRIDGE_IP_NETWORK_B: 10.2.0.3/16
+        # Keep Container open
+        stdin_open: true
+        # Netadmin
+        cap_add:
+            - NET_ADMIN
+        networks:
+            - network_a
+            - network_b
+        restart: on-failure
+    # NETWORK B
+    s30:
+        container_name: container_b
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        environment:
+            # IP_CONTAINER is mandatory!
+            IP_CONTAINER: 10.2.0.2/16
+            ROUTING_A: 10.2.0.3/16,10.1.0.0/16
+            USER_NAME: client
+            USER_PASSWORD: playground
+        # Keep Container open
+        stdin_open: true
+        # Netadmin
+        cap_add:
+            - NET_ADMIN
+        networks:
+            - network_b
+        ports:
+            - 2020:22
+        restart: on-failure
+    # SSH CONTAINER
+
+#Setting up custom host networks
+networks:
+    network_a:
+        driver: bridge
+
+    network_b:
+        driver: bridge
