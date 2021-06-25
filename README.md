@@ -21,15 +21,16 @@ Yes](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/green?style=flat-square
 - [Install In One Command!](#install-in-one-command)
   * [Get the latest version of Docker](#get-the-latest-version-of-docker)
 - [Getting started](#getting-started)
-  * [Connect to a Container](#home-screen)
   * [Establish a SSH Connection](#establish-a-ssh-connection)
   * [Check your IP Adress](#check-your-ip-adress)
 - [Configuration](#configuration)
   * [IP Adress](#an-example-installation-of-the-colorizer-plugin)
   * [Routing](#finding-plugins)
   * [User Name](#user-name)
+  * [Example Configuration](#example-configuration)
+- [TODO](#todo)
 
-# What’s included?
+# 🔗 What’s included? 🔗
 
 DPG provides an expandable networking sanbox in which the user can practice
 basic routing.
@@ -45,27 +46,27 @@ Packages can be routed from one client to another over a bridge.
 The user is given the ability to connect to any container from inside a
 container via SSH.
 
-## Monitoring
-Various monitoring tools are installed on each container </br>
-e.g. 
+## 🖥️ Monitoring
+Various monitoring tools are installed on each container. </br>
+ 
 - tshark
 - iftop
-- ...
+- mtr
 
 # Project Goals
 The goal of this project is to create a network environment via docker which
-enables students to practice basic networking. To achieve this the network
-should have the following traits:
+enables students to practice basic networking. </br>
+To achieve this the network should have the following traits:
 - Scalability
 - Static Ip Adresses
 - User friendlyness
 
-# Install In One Command!
+# ⚡ Install In One Command! ⚡
 ```sh
 git clone https://github.com/MrWelsch/dpg
 ```
 
-## Get The Latest Version Of Docker
+## 📦️ Get The Latest Version Of Docker
 ### MacOS
 Use [Homebrew Cask](https://brew.sh) to download the app by running these commands:
 ```sh
@@ -98,7 +99,7 @@ choco upgrade
 choco install docker-desktop
 ```
 
-# Getting Started
+# 🚀 Getting Started 🚀
 To use the docker Playground you need to be in the source directory.<br/>
 Inside that directory execute the following command:
 ```sh
@@ -128,14 +129,14 @@ ssh client@10.2.0.2
 ```
 
 ## Check Your IP Adress
-The IP Adress of each Network Interface can be inspected by using:
+The IP Adress of each Network Interface can be inspected by executing:
 ```sh
 ip a
 ```
 
-# Configuration
-All configuration is done inside the `docker-compose.yml` file. </br>
-The user can set various environment variables which are needed to configure the
+#  ⚙️ Configuration ⚙️
+All configuration is done in the `docker-compose.yml` file. </br>
+Various environment variables can be set which are needed to configure the
 network.
 
 ## IP Adress
@@ -144,6 +145,7 @@ The IP Adress of each container can be set as follows:
 environment:
   IP_ADRESS: 10.1.0.2/16
 ```
+⚠️  This is a mandatory configuration!
 ## Routing
 To configure a route one has to define the destinated network as well as an IP
 Adress to be routed over. The corresponding environment variable has to be named
@@ -152,19 +154,20 @@ after the convention `ROUTING_routename`.
 environment:
   ROUTING_A: 10.1.0.3/16,10.2.0.0/16
 ````
+The left side (`10.1.0.3/16`) indicates the Bridge via which the packages are routed to the
+destinated network, which is set on the right side (`10.2.0.0/16`) of the `,`.
 ## User Name
-The user is enabled to create a user with a password. If no password is chosen
-it will default to `playground`. </br> </br>
-If the environment variable `USER_NAME` is not set the default user `client` or
-`bridge` depending on the container type will be created with the before
-mentioned default password. 
+One can create a password protected user. </br>
+If no user name(`USER_NAME`) is set the default user `client` or
+`bridge` depending on the container type will be created with the default
+password (`USER_PASSWORD`) if not otherwise defined.
 ```yml
 environment:
   USER_NAME: example
   USER_PASSWORD: dummy
 ```
 
-### Example Configuration File
+### 📄 Example Configuration
 ```yml
 version: '3'
 services:
@@ -227,3 +230,10 @@ networks:
     network_b:
         driver: bridge
 ```
+
+# 🚧 TODO 🚧
+
+- BGP
+- FTP
+- Documentation
+- Instructions
