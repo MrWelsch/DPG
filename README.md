@@ -7,6 +7,8 @@ Yes](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/green?style=flat-square
 ![LOC](https://img.shields.io/tokei/lines/github/MrWelsch/dpg?style=flat-square)
 ![Releases](https://img.shields.io/github/downloads/MrWelsch/dpg/total?style=flat-square)
 
+![header](./graphics/header.gif)
+
 # Table of contents
 
 - [What’s included?](#whats-included)
